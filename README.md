@@ -146,7 +146,7 @@ git branch --format "%(refname:lstrip=2)" > locals
 
 cat locals | grep -xv -f remotes > branchesToDelete
 
-# -w checks word counts to ignore blank lines
+# -w checks word counts to ignore blank lines 
 if [ $(wc -w < branchesToDelete) -gt 0 ];
 then
 	echo "$(wc -l < branchesToDelete) branches without matching remote found, outputting to editor"

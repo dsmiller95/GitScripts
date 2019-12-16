@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 if !(git rev-parse --is-inside-work-tree); then
 	echo "Not inside a git repository, aborting"
 	exit 0
