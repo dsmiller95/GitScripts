@@ -20,7 +20,7 @@ if [ $(wc -w < branchesToDelete) -gt 0 ];
 then
 	echo "$(wc -l < branchesToDelete) branches without matching remote found, outputting to editor"
 	echo "Waiting for editor to close"
-	code branchesToDelete -w
+	code branchesToDelete -w &&
 	for branch in `cat branchesToDelete`;
 	do
 		git branch -D $branch
