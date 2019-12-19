@@ -19,10 +19,10 @@ If ($words -gt 0) {
     Write-Output "$($words) branches without matching remote found, outputting to editor"
     Write-Output "Waiting for editor to close"
 
-    # create file with branches staged for deletion
+    # create file with branches staged for deletion with informational text and remove blank lines
     $info = "************************************`nRemove Branch Names You Wish To Keep`nSave & Close File To Continue`n************************************"
     Write-Output $info | Set-Content branchesToDelete
-    $branchesToDelete | Add-Content branchesToDelete
+    $branchesToDelete | Where-Object { $_ } | Add-Content branchesToDelete
     # open file in VSCode to allow user to opt out of deleting specified branches
     code branchesToDelete -w
 
