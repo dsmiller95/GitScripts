@@ -42,7 +42,8 @@ rm branchesToDelete remotes locals
 The process behind identifying dead local branches that we'll use follows a few basic steps:
 1. Get lists of remote and local branch names
 2. Compare the lists of branches, and keep only local branches which aren't in the list of remote branches
-3. Delete all of the branches resulting from the comparison of the two lists
+3. Since we will be forcing branch deletion, confirm with the user that we have the right branches before deleting
+4. Delete all of the branches resulting from the comparison of the two lists
 
 
 ### Listing the Branches
@@ -64,7 +65,7 @@ git branch --format "%(refname:lstrip=2)" > locals
   * For local branches, this would look like `refs/heads/master`
   * For remote branches, this would look like `refs/remotes/origin/master`
 * `:lstrip=n`
-  * This is a modifier on the `refname` field. It is used to specify that the first `n` path sections should be removed from the branch name before it is output. For example, by stripping the first 3 sections off of a remote branch name `refs/remotes/origin/master`, it leaves just `master`. More info on git's formatting syntax is available here: https://git-scm.com/docs/git-for-each-ref#_field_names 
+  * This is a modifier on the `refname` field. It is used to specify that the first `n` path sections should be removed from the branch name before it is output. For example, by stripping the first 3 sections off of a remote branch name `refs/remotes/origin/feature/dropdown`, it leaves just `feature/dropdown`. More info on git's formatting syntax is available here: https://git-scm.com/docs/git-for-each-ref#_field_names 
 * `> [filename]`
   * Output everything into a file for use later on
 
@@ -171,3 +172,4 @@ If you want to use this often, it is going to be worthwhile to set up an alias i
 2. Add this new line to the .bashrc file: `alias git-prune="<Absolute-Path-To-Script>"`
 3. Close and reopen any bash terminals you have open
 4. Use your new `git-prune` command
+
