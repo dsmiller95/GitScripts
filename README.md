@@ -4,9 +4,10 @@ If you don't actively clean up old branches in your local git repository, it's v
 
 ## TL;DR: Just Give Me the Script
 
-This is the finished product, safeguards and all. Run this from a bash or shell terminal and follow the prompts, and your local repository should get cleaned up. Read on for a more detailed explanation.
+This is the finished product, safeguards and all. Run this from a bash or shell terminal and follow the prompts, and your local repository should get cleaned up. Read on for a more detailed explanation, or skip to [making it a git command](#Registering-as-git-command).
 
 ```bash
+#!/usr/bin/env sh
 if !(git rev-parse --is-inside-work-tree); then
 	echo "Not inside a git repository, aborting"
 	exit 0
@@ -117,7 +118,7 @@ done
 But this has a few problems if we want to start using it more reliably. Most obvious is that it leaves a bunch of files lying around! Let's clean those up by adding a `rm` at the end:
 
 ```bash
-rm remotes locals branchesToDelete
+rm branchesToDelete remotes locals
 ```
 
 ### User Input to Protect Active Local Branches
@@ -132,9 +133,10 @@ This opens VSCode to edit the `branchesToDelete` file, and `-w` blocks the scrip
 
 -----
 
-What we have now does well when we're in a git repository, and have some branches to delete, but this might not always be the case when running the script. To finish it up let's add some early exits in case we're not in a repository, or in case we end up with no branches to delete; and a few informational printouts so a new user doesn't feel lost. That leaves us with the final product:
+What we have now does well when we're in a git repository, and have some branches to delete, but this might not always be the case when running the script. To finish it up let's add some early exits in case we're not in a repository, or in case we end up with no branches to delete. And a few informational printouts so a new user doesn't feel lost. That leaves us with the final product:
 
 ```bash
+#!/usr/bin/env sh
 if !(git rev-parse --is-inside-work-tree); then
 	echo "Not inside a git repository, aborting"
 	exit 0
@@ -144,7 +146,6 @@ git remote prune origin
 
 git branch -r --format "%(refname:lstrip=3)" > remotes
 git branch --format "%(refname:lstrip=2)" > locals
-
 cat locals | grep -xv -f remotes > branchesToDelete
 
 # -w checks word counts to ignore blank lines 
@@ -153,6 +154,7 @@ then
 	echo "$(wc -l < branchesToDelete) branches without matching remote found, outputting to editor"
 	echo "Waiting for editor to close"
 	code branchesToDelete -w
+
 	for branch in `cat branchesToDelete`;
 	do
 		git branch -D $branch
@@ -164,12 +166,12 @@ fi
 rm branchesToDelete remotes locals
 ```
 
-# A Brief Alias
+# Registering as git command
 
-If you want to use this often, it is going to be worthwhile to set up an alias instead of referencing the script by filepath every time. If using git bash on windows, here's a few steps to get that set up:
+To use this script in multiple repositories easily, it can be set up as a git command so that all it takes to run it is `git clean-branches` from any console. The setup for this is pretty quick:
 
-1. If there is no .bashrc file in your user directory, create one: `touch ~/.bashrc`
-2. Add this new line to the .bashrc file: `alias git-prune="<Absolute-Path-To-Script>"`
-3. Close and reopen any bash terminals you have open
-4. Use your new `git-prune` command
-
+1. Copy a script to become a git command into your git installation's `/usr/bin/` directory, on Windows it is likely here: `C:\Program Files\Git\usr\bin`.
+   1. This can be found on windows by navigating to `/usr/bin/` in a Git bash console, and opening an explorer window at that location with `explorer .`
+2. Rename the script based on what you want the name of the command to be. In this case "git-clean-branches", note that there is no `.sh` extension in the name. Git will look for filenames starting with "git-", and take the remaining part of the whole filename as the command's name.
+   1. Since there is no file extension there must be a shebang at the start of the file to indicate how the script is to be run (`#!/usr/bin/env sh`)
+3. Done! Now any terminal that has access to regular Git commands will also have access to your new custom script
