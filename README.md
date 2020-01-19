@@ -1,6 +1,6 @@
 # Removing Local GIT Branches with No Remote
 
-If you don't actively clean up old branches in your local git repository, it's very easy for it to get polluted with old branches which have been deleted on the remote repository. Worst case this will make listing your local branches almost useless! I believe `git branch` should show a relevant listing of active work that you have checked out, not a list of every branch you've ever checked out locally. Fortunately, there is a way around this, if we're willing to put in a little bit of work into automating it.
+If you don't actively clean up old branches in your local git repository, it's very easy for it to get polluted with old branches which have been deleted on the remote repository. Worst case this will make listing your local branches almost useless! I believe `git branch` should show a relevant listing of active work that you have checked out, not a list of every branch you've ever checked out locally. Fortunately, there is an easy way around this, if we're willing to put in a little bit of work into automating it.
 
 ## TL;DR: Just Give Me the Script
 
@@ -17,7 +17,6 @@ git remote prune origin
 
 git branch -r --format "%(refname:lstrip=3)" > remotes
 git branch --format "%(refname:lstrip=2)" > locals
-
 cat locals | grep -xv -f remotes > branchesToDelete
 
 # -w checks word counts to ignore blank lines
@@ -170,8 +169,24 @@ rm branchesToDelete remotes locals
 
 To use this script in multiple repositories easily, it can be set up as a git command so that all it takes to run it is `git clean-branches` from any console. The setup for this is pretty quick:
 
-1. Copy a script to become a git command into your git installation's `/usr/bin/` directory, on Windows it is likely here: `C:\Program Files\Git\usr\bin`.
-   1. This can be found on windows by navigating to `/usr/bin/` in a Git bash console, and opening an explorer window at that location with `explorer .`
-2. Rename the script based on what you want the name of the command to be. In this case "git-clean-branches", note that there is no `.sh` extension in the name. Git will look for filenames starting with "git-", and take the remaining part of the whole filename as the command's name.
-   1. Since there is no file extension there must be a shebang at the start of the file to indicate how the script is to be run (`#!/usr/bin/env sh`)
-3. Done! Now any terminal that has access to regular Git commands will also have access to your new custom script
+---
+### Create script in /usr/bin/
+
+Copy or create a script to become a git command into your git installation's `/usr/bin/` directory, on Windows it is likely here: `C:\Program Files\Git\usr\bin`.
+
+This can be found on windows by navigating to `/usr/bin/` in a Git bash console, and opening an explorer window at that location with `explorer .`
+
+---
+### Set script name
+Rename the script based on what you want the name of the command to be. In this case "git-clean-branches", note that there is no `.sh` extension in the name. Git will look for filenames starting with "git-", and take the remaining part of the whole filename as the command's name.
+
+Since there is no file extension there must be a shebang at the start of the file to indicate how the script is to be run (`#!/usr/bin/env sh`)
+
+---
+### Done!
+
+Now any terminal that has access to regular Git commands will also have access to your new custom script
+
+# About Me
+
+I started my adventure in coding by playing around with coding environments such as [Scratch](https://scratch.mit.edu/), [Processing](https://processing.org/), and [Grobots](http://grobots.sourceforge.net/). After making it through college I got started in web development, working with Angular front-ends and NodeJS or C# back-ends. In my free time I love to play games like Factorio and Noita, or occasionally trying my hand at woodwork.
