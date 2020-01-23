@@ -187,6 +187,10 @@ Since there is no file extension there must be a shebang at the start of the fil
 
 Now any terminal that has access to regular Git commands will also have access to your new custom script
 
+# Conclusion
+
+Taking some time to build tools to help yourself or other work a little faster is something that I find can be quite rewarding. I hope that this not only helps clean up your git repos in the future, but also inspires you to look for other ways you can reduce repetitiveness in your workflow with these sorts of tools. Once you start automating things, it's hard to resist continuing to automate.
+
 # About Me
 
 I started my adventure in coding by playing around with coding environments such as [Scratch](https://scratch.mit.edu/), [Processing](https://processing.org/), and [Grobots](http://grobots.sourceforge.net/). After making it through college I got started in web development, working with Angular front-ends and NodeJS or C# back-ends. In my free time I love to play games like Factorio and Noita, or occasionally trying my hand at woodwork.
