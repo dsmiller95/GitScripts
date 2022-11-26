@@ -1,6 +1,6 @@
 # Git Scripts
 
-This is a repository used to collect all useful custom git scripts I've developed
+This is a repository used to collect some useful custom git scripts
 
 ## git clean-branches
 
