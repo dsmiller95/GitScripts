@@ -6,9 +6,7 @@ then
   exit 1
 fi
 
-IS_REBASE_IN_PROGRESS='[ -d "git/rebase-apply" ] || [ -d ".git/rebase-merge" ]'
-
-if [[ $($IS_REBASE_IN_PROGRESS) ]] 
+if [ -d "git/rebase-apply" ] || [ -d ".git/rebase-merge" ]
 then
 	echo "rebase in progress. aborting."
 	exit 1
