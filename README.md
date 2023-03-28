@@ -1,6 +1,6 @@
 # Git Scripts
 
-This is a repository used to collect some useful custom git scripts. Run `install.sh` once per computer, to link up the git command path. Run `deploy.sh` every time scrips change
+This is a repository used to collect some useful custom git scripts. Run `install.sh` once per computer, to link up the git command path. To test changes to the scripts, or to apply newly pulled down changes, run `deploy.sh` every time scrips change
 
 ## git clean-branches
 
