@@ -38,5 +38,5 @@ echo $INITIAL_COMMIT_TIME > current_time
 
 NEXT_COMMIT_TIME_VAL="\$((\$(cat current_time) + (\$RANDOM % ($VARIATION_PER_COMMIT * 2) - $VARIATION_PER_COMMIT)))"
 
-trap "rm per_commit current_time || echo && git rebase --abort 2>/dev/null && echo error encountered, aborting rebase" EXIT
+trap "rm per_commit current_time || echo && git rebase --abort 2>/dev/null && echo error encountered, aborting rebase. Ensure running from repository root." EXIT
 git rebase origin/$(git rev-parse --abbrev-ref HEAD) --exec "git commit --amend --allow-empty --date=$NEXT_COMMIT_TIME_VAL --no-edit && echo \$((\$(cat current_time)+\$(cat per_commit))) > current_time"
